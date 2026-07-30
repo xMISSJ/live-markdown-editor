@@ -109,6 +109,13 @@ body {
   font-size: 0.9rem;
 }
 
+.app-header-actions {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .theme-toggle {
   flex-shrink: 0;
   display: inline-flex;
@@ -350,6 +357,303 @@ body {
 .prose img {
   max-width: 100%;
   height: auto;
+}
+
+.prose .markdown-alert {
+  margin: 0 0 1em;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  border-left-width: 0.28rem;
+  background: var(--panel-elevated);
+}
+
+.prose .markdown-alert > :last-child {
+  margin-bottom: 0;
+}
+
+.prose .markdown-alert-title {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0 0 0.45rem;
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.prose .markdown-alert .octicon {
+  fill: currentColor;
+  flex-shrink: 0;
+}
+
+.prose .markdown-alert-note {
+  border-left-color: #4493f8;
+}
+
+.prose .markdown-alert-note .markdown-alert-title {
+  color: #4493f8;
+}
+
+.prose .markdown-alert-tip {
+  border-left-color: #3fb950;
+}
+
+.prose .markdown-alert-tip .markdown-alert-title {
+  color: #3fb950;
+}
+
+.prose .markdown-alert-important {
+  border-left-color: #ab7df8;
+}
+
+.prose .markdown-alert-important .markdown-alert-title {
+  color: #ab7df8;
+}
+
+.prose .markdown-alert-warning {
+  border-left-color: #d29922;
+}
+
+.prose .markdown-alert-warning .markdown-alert-title {
+  color: #d29922;
+}
+
+.prose .markdown-alert-caution {
+  border-left-color: #f85149;
+}
+
+.prose .markdown-alert-caution .markdown-alert-title {
+  color: #f85149;
+}
+
+[data-theme="light"] .prose .markdown-alert-note {
+  border-left-color: #0969da;
+}
+
+[data-theme="light"] .prose .markdown-alert-note .markdown-alert-title {
+  color: #0969da;
+}
+
+[data-theme="light"] .prose .markdown-alert-tip {
+  border-left-color: #1a7f37;
+}
+
+[data-theme="light"] .prose .markdown-alert-tip .markdown-alert-title {
+  color: #1a7f37;
+}
+
+[data-theme="light"] .prose .markdown-alert-important {
+  border-left-color: #8250df;
+}
+
+[data-theme="light"] .prose .markdown-alert-important .markdown-alert-title {
+  color: #8250df;
+}
+
+[data-theme="light"] .prose .markdown-alert-warning {
+  border-left-color: #9a6700;
+}
+
+[data-theme="light"] .prose .markdown-alert-warning .markdown-alert-title {
+  color: #9a6700;
+}
+
+[data-theme="light"] .prose .markdown-alert-caution {
+  border-left-color: #cf222e;
+}
+
+[data-theme="light"] .prose .markdown-alert-caution .markdown-alert-title {
+  color: #cf222e;
+}
+
+.cheatsheet-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: rgb(0 0 0 / 45%);
+}
+
+.cheatsheet {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  width: min(34rem, 100vw);
+  height: 100%;
+  background: var(--header-bg);
+  border-left: 1px solid var(--line);
+  color: var(--ink);
+  transform: translateX(100%);
+  transition: transform 0.2s ease;
+  pointer-events: none;
+}
+
+.cheatsheet-open {
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.cheatsheet-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.15rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.cheatsheet-header h2 {
+  margin: 0 0 0.25rem;
+  font-size: 1.05rem;
+}
+
+.cheatsheet-header p {
+  margin: 0;
+  color: var(--ink-muted);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.cheatsheet-toc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid var(--line);
+  background: var(--panel-elevated);
+}
+
+.cheatsheet-toc-item {
+  padding: 0.28rem 0.55rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-muted);
+  font: inherit;
+  font-size: 0.74rem;
+  font-weight: 650;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+}
+
+.cheatsheet-toc-item:hover {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+  color: var(--ink);
+}
+
+.cheatsheet-toc-item-active {
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--line));
+  color: var(--ink);
+}
+
+.cheatsheet-list {
+  flex: 1;
+  overflow: auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.cheatsheet-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  scroll-margin-top: 0.75rem;
+}
+
+.cheatsheet-section-header h3 {
+  margin: 0;
+  font-size: 0.96rem;
+}
+
+.cheatsheet-section-header p {
+  margin: 0.2rem 0 0;
+  color: var(--ink-muted);
+  font-size: 0.8rem;
+}
+
+.cheatsheet-card {
+  padding: 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 0.55rem;
+  background: var(--preview-surface);
+}
+
+.cheatsheet-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.cheatsheet-card h3 {
+  margin: 0 0 0.2rem;
+  font-size: 0.95rem;
+}
+
+.cheatsheet-card h4 {
+  margin: 0 0 0.2rem;
+  font-size: 0.9rem;
+}
+
+.cheatsheet-card-top p {
+  margin: 0;
+  color: var(--ink-muted);
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+.cheatsheet-insert {
+  flex-shrink: 0;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: 0.4rem;
+  background: var(--panel-elevated);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cheatsheet-insert:hover {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+}
+
+.cheatsheet-source {
+  margin: 0 0 0.75rem;
+  padding: 0.75rem 0.85rem;
+  overflow: auto;
+  border-radius: 0.4rem;
+  background: var(--editor-field-bg);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+
+.cheatsheet-preview {
+  padding: 0.75rem 0.85rem;
+  border-radius: 0.4rem;
+  border: 1px solid var(--line);
+  background: var(--panel-elevated);
+  font-size: 0.92rem;
+}
+
+.cheatsheet-preview :first-child {
+  margin-top: 0;
+}
+
+.cheatsheet-preview :last-child {
+  margin-bottom: 0;
 }
 
 @media (max-width: 800px) {

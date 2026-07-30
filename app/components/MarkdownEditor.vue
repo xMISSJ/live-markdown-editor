@@ -204,6 +204,28 @@ onBeforeUnmount(() => {
   view?.destroy()
   view = null
 })
+
+function insertSnippet(snippet: string) {
+  if (!view) {
+    emit('update:modelValue', `${props.modelValue.replace(/\s*$/, '')}\n\n${snippet}\n`)
+    return
+  }
+
+  const { from, to } = view.state.selection.main
+  const prefix = from > 0 && view.state.doc.sliceString(Math.max(0, from - 2), from) !== '\n\n'
+    ? (from > 0 ? '\n\n' : '')
+    : ''
+  const insert = `${prefix}${snippet}\n`
+
+  view.dispatch({
+    changes: { from, to, insert },
+    selection: { anchor: from + insert.length },
+    scrollIntoView: true,
+  })
+  view.focus()
+}
+
+defineExpose({ insertSnippet })
 </script>
 
 <template>

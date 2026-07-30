@@ -26,30 +26,33 @@ const DEFAULT_MARKDOWN = `# Live Markdown Editor
 
 Type on the left — preview updates instantly on the right.
 
-## Features
+Open the **Cheat sheet** for syntax examples (lists, tables, notes, warnings, and more).
 
-- **GitHub Flavored Markdown**
-- Live preview as you type
-- Safe HTML rendering
+## Quick start
 
-### Try a list
-
-1. Write some markdown
-2. Watch the preview
-3. Keep going
+- Write markdown on the left
+- See the live preview on the right
+- Insert examples from the cheat sheet
 
 \`\`\`js
 console.log('Hello, markdown!')
 \`\`\`
 
-> Tip: use headings, lists, code, and links freely.
+> [!TIP]
+> Click **Cheat sheet** in the header whenever you forget the syntax.
 `
 
 const markdown = ref(DEFAULT_MARKDOWN)
+const cheatsheetOpen = ref(false)
+const editorRef = ref<{ insertSnippet: (snippet: string) => void } | null>(null)
 
 const themeLabel = computed(() =>
   theme.value === 'dark' ? 'Light mode' : 'Dark mode',
 )
+
+function insertExample(snippet: string) {
+  editorRef.value?.insertSnippet(snippet)
+}
 </script>
 
 <template>
@@ -60,20 +63,34 @@ const themeLabel = computed(() =>
         <h1>Live Markdown Editor</h1>
         <p>Write markdown on the left, see the preview on the right.</p>
       </div>
-      <button
-        type="button"
-        class="theme-toggle"
-        :aria-label="`Switch to ${themeLabel}`"
-        @click="toggleTheme"
-      >
-        {{ themeLabel }}
-      </button>
+      <div class="app-header-actions">
+        <button
+          type="button"
+          class="theme-toggle"
+          @click="cheatsheetOpen = true"
+        >
+          Cheat sheet
+        </button>
+        <button
+          type="button"
+          class="theme-toggle"
+          :aria-label="`Switch to ${themeLabel}`"
+          @click="toggleTheme"
+        >
+          {{ themeLabel }}
+        </button>
+      </div>
     </header>
     <main class="editor-layout">
-      <MarkdownEditor v-model="markdown" />
+      <MarkdownEditor ref="editorRef" v-model="markdown" />
       <ClientOnly>
         <MarkdownPreview :source="markdown" />
       </ClientOnly>
     </main>
+
+    <MarkdownCheatsheet
+      v-model:open="cheatsheetOpen"
+      @insert="insertExample"
+    />
   </div>
 </template>
