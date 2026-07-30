@@ -3,22 +3,23 @@
 :root,
 [data-theme="dark"] {
   color-scheme: dark;
-  --bg: #0d1117;
-  --panel: #161b22;
-  --panel-elevated: #1c2129;
-  --editor-bg: #0d1117;
-  --editor-field-bg: #21262d;
-  --preview-bg: #0d1117;
+  --bg: #1c2128;
+  --panel: #1c2128;
+  --panel-elevated: #252b33;
+  --editor-bg: #1c2128;
+  --editor-field-bg: #1c2128;
+  --preview-bg: #22272e;
+  --preview-surface: #22272e;
   --ink: #e6edf3;
-  --ink-muted: #8b949e;
-  --line: #30363d;
+  --ink-muted: #9aa3ad;
+  --line: #373e47;
   --accent: #3fb950;
-  --code-bg: #21262d;
-  --pre-bg: #0d1117;
-  --header-bg: #161b22;
+  --code-bg: #2d333b;
+  --pre-bg: #161b22;
+  --header-bg: #252b33;
   --caret: #3fb950;
-  --placeholder: #6e7681;
-  --badge-editor-bg: #21262d;
+  --placeholder: #768390;
+  --badge-editor-bg: #2d333b;
   --badge-editor-ink: #c9d1d9;
   --badge-preview-bg: color-mix(in srgb, var(--accent) 22%, transparent);
   --badge-preview-ink: #56d364;
@@ -35,6 +36,7 @@
   --editor-bg: #eef1f6;
   --editor-field-bg: #f0f2f5;
   --preview-bg: #ffffff;
+  --preview-surface: #ffffff;
   --ink: #1a1f2c;
   --ink-muted: #667085;
   --line: #d0d7e4;
@@ -260,15 +262,11 @@ body {
   flex: 1;
   overflow: auto;
   padding: 1.5rem 1.75rem 2.5rem;
-  background: color-mix(in srgb, var(--preview-bg) 70%, black);
+  background: var(--preview-surface);
   font-family: var(--font-prose);
   font-size: 1.08rem;
   line-height: 1.75;
   color: var(--ink);
-}
-
-[data-theme="light"] .preview {
-  background: #ffffff;
 }
 
 .prose :first-child {

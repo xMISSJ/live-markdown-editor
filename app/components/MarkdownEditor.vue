@@ -3,8 +3,7 @@ import { EditorView, keymap, lineNumbers, highlightActiveLine, highlightActiveLi
 import { EditorState, Compartment } from '@codemirror/state'
 import { defaultKeymap, history, historyKeymap, indentWithTab } from '@codemirror/commands'
 import { markdown } from '@codemirror/lang-markdown'
-import { syntaxHighlighting, defaultHighlightStyle, HighlightStyle } from '@codemirror/language'
-import { oneDark } from '@codemirror/theme-one-dark'
+import { syntaxHighlighting, HighlightStyle } from '@codemirror/language'
 import { tags } from '@lezer/highlight'
 
 const props = defineProps<{
@@ -32,6 +31,22 @@ const lightHighlight = HighlightStyle.define([
   { tag: tags.meta, color: '#8250df' },
   { tag: tags.keyword, color: '#cf222e' },
   { tag: tags.comment, color: '#6e7781' },
+  { tag: tags.processingInstruction, color: '#8250df' },
+])
+
+const darkHighlight = HighlightStyle.define([
+  { tag: tags.heading, color: '#79c0ff', fontWeight: '700' },
+  { tag: tags.strong, color: '#e6edf3', fontWeight: '700' },
+  { tag: tags.emphasis, color: '#e6edf3', fontStyle: 'italic' },
+  { tag: tags.link, color: '#a5d6ff' },
+  { tag: tags.url, color: '#a5d6ff' },
+  { tag: tags.monospace, color: '#ff7b72' },
+  { tag: tags.quote, color: '#8b949e', fontStyle: 'italic' },
+  { tag: tags.meta, color: '#d2a8ff' },
+  { tag: tags.keyword, color: '#ff7b72' },
+  { tag: tags.comment, color: '#8b949e' },
+  { tag: tags.processingInstruction, color: '#d2a8ff' },
+  { tag: tags.strikethrough, textDecoration: 'line-through' },
 ])
 
 const lightTheme = EditorView.theme({
@@ -69,9 +84,11 @@ const lightTheme = EditorView.theme({
   },
 }, { dark: false })
 
-const darkThemeExtras = EditorView.theme({
+const darkTheme = EditorView.theme({
   '&': {
     height: '100%',
+    backgroundColor: '#1c2128',
+    color: '#e6edf3',
   },
   '.cm-scroller': {
     fontFamily: 'var(--font-mono)',
@@ -79,19 +96,32 @@ const darkThemeExtras = EditorView.theme({
     lineHeight: '1.65',
   },
   '.cm-content': {
+    caretColor: '#3fb950',
     padding: '1rem 0',
   },
   '.cm-gutters': {
-    backgroundColor: '#161b22',
-    color: '#6e7681',
+    backgroundColor: '#1c2128',
+    color: '#768390',
     border: 'none',
-    borderRight: '1px solid #30363d',
+    borderRight: '1px solid #373e47',
   },
-})
+  '.cm-activeLine': {
+    backgroundColor: '#252b33',
+  },
+  '.cm-activeLineGutter': {
+    backgroundColor: '#252b33',
+  },
+  '&.cm-focused .cm-selectionBackground, .cm-selectionBackground': {
+    backgroundColor: '#388bfd33',
+  },
+  '.cm-cursor': {
+    borderLeftColor: '#3fb950',
+  },
+}, { dark: true })
 
 function themeExtensions(mode: 'dark' | 'light') {
   if (mode === 'dark') {
-    return [oneDark, darkThemeExtras]
+    return [darkTheme, syntaxHighlighting(darkHighlight)]
   }
   return [lightTheme, syntaxHighlighting(lightHighlight)]
 }
@@ -122,7 +152,6 @@ function createEditor(parent: HTMLElement) {
         drawSelection(),
         history(),
         markdown(),
-        syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
         placeholder('Start writing markdown…'),
         keymap.of([...defaultKeymap, ...historyKeymap, indentWithTab]),
         themeCompartment.of(themeExtensions(currentThemeMode())),
