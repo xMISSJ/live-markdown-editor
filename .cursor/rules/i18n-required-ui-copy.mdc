@@ -1,0 +1,12 @@
+---
+description: Require i18n for all user-facing UI text
+alwaysApply: true
+---
+
+# i18n Required for UI Copy
+
+- Never hardcode user-facing UI text in Vue components, composables, or utility data files.
+- All user-visible labels, titles, descriptions, helper text, aria text, button copy, and empty-state text must come from i18n keys.
+- When adding new UI copy, add keys for `en`, `zh`, `es`, and `nl` locale files in `i18n/locales/`.
+- In data-only files like `app/utils/markdownExamples.ts`, keep structural IDs and content snippets only; localized display text must be resolved through i18n at render time.
+- If a new feature ships with missing translations, treat it as incomplete and add locale entries before finalizing.

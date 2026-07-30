@@ -1,0 +1,14 @@
+---
+description: Prefer expanded multiline title/description objects
+alwaysApply: true
+---
+
+# Expanded Object Literal Style
+
+- For pairs like `title` + `description`, always use expanded multiline formatting:
+  - `basics: {`
+  - `  title: 'Basis',`
+  - `  description: 'Kernsyntax van Markdown voor bijna elk document.',`
+  - `},`
+- Do not collapse these objects into one line, even when short.
+- Apply this style consistently in locale files and similar user-facing copy maps.

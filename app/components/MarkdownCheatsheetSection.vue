@@ -13,6 +13,15 @@ const emit = defineEmits<{
 
 const { renderMarkdown } = useMarkdown()
 const { t } = useI18n()
+
+function exampleText(exampleId: string) {
+  const titleKey = `examples.${props.section.id}.${exampleId}.title`
+  const descriptionKey = `examples.${props.section.id}.${exampleId}.description`
+  const title = t(titleKey)
+  const description = t(descriptionKey)
+
+  return { title, description }
+}
 </script>
 
 <template>
@@ -31,8 +40,8 @@ const { t } = useI18n()
     >
       <div class="mb-3 flex items-start justify-between gap-3">
         <div>
-          <h4 class="mb-1 text-[0.9rem] font-semibold">{{ example.title }}</h4>
-          <p class="m-0 text-[0.82rem] leading-[1.4] text-ink-muted">{{ example.description }}</p>
+          <h4 class="mb-1 text-[0.9rem] font-semibold">{{ exampleText(example.id).title }}</h4>
+          <p class="m-0 text-[0.82rem] leading-[1.4] text-ink-muted">{{ exampleText(example.id).description }}</p>
         </div>
         <button
           type="button"

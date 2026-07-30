@@ -54,27 +54,23 @@ onBeforeUnmount(() => {
 
 <template>
   <Teleport to="body">
-    <Transition
-      enter-active-class="transition-opacity duration-200"
-      leave-active-class="transition-opacity duration-150"
-      enter-from-class="opacity-0"
-      leave-to-class="opacity-0"
+    <div
+      class="fixed inset-0 z-40 transition-opacity duration-200"
+      :class="open ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'"
     >
       <div
-        v-if="open"
-        class="fixed inset-0 z-40 bg-black/45"
+        class="absolute inset-0 bg-black/45"
         @click="close"
       />
-    </Transition>
-    <Transition
-      enter-active-class="transform transition duration-250 ease-out"
-      leave-active-class="transform transition duration-200 ease-in"
-      enter-from-class="translate-x-full"
-      leave-to-class="translate-x-full"
+    </div>
+
+    <div
+      class="fixed inset-y-0 right-0 z-50 flex w-full justify-end"
+      :class="open ? 'pointer-events-auto' : 'pointer-events-none'"
     >
       <aside
-        v-if="open"
-        class="fixed right-0 top-0 z-50 flex h-full w-full max-w-136 flex-col border-l border-line bg-header-bg text-ink shadow-2xl"
+        class="flex h-full w-full max-w-136 flex-col border-l border-line bg-header-bg text-ink shadow-2xl transition-transform duration-250 ease-out will-change-transform"
+        :class="open ? 'translate-x-0' : 'translate-x-full'"
         :aria-label="t('ui.cheatTitle')"
         :aria-hidden="!open"
       >
@@ -112,6 +108,6 @@ onBeforeUnmount(() => {
           />
         </div>
       </aside>
-    </Transition>
+    </div>
   </Teleport>
 </template>
