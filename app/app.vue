@@ -88,21 +88,12 @@ function insertExample(snippet: string) {
             </option>
           </select>
         </label>
-        <button
-          type="button"
-          class="inline-flex items-center rounded-md border border-line bg-panel-elevated px-3 py-1.5 text-[0.85rem] font-semibold text-ink transition-colors hover:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-          @click="cheatsheetOpen = true"
-        >
+        <UiButton @click="cheatsheetOpen = true">
           {{ t('ui.cheatSheet') }}
-        </button>
-        <button
-          type="button"
-          class="inline-flex items-center rounded-md border border-line bg-panel-elevated px-3 py-1.5 text-[0.85rem] font-semibold text-ink transition-colors hover:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-          :aria-label="`Switch to ${themeLabel}`"
-          @click="toggleTheme"
-        >
+        </UiButton>
+        <UiButton :aria-label="`Switch to ${themeLabel}`" @click="toggleTheme">
           {{ themeLabel }}
-        </button>
+        </UiButton>
       </div>
     </header>
     <main class="grid min-h-0 flex-1 grid-cols-2 max-[800px]:grid-cols-1 max-[800px]:grid-rows-2">
