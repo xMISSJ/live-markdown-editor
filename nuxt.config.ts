@@ -18,17 +18,17 @@ export default defineNuxtConfig({
   i18n: {
     strategy: 'no_prefix',
     defaultLocale: 'en',
-    langDir: 'i18n/locales',
     locales: [
-      { code: 'en', name: 'English', file: 'en.ts' },
-      { code: 'zh', name: '中文', file: 'zh.ts' },
-      { code: 'es', name: 'Español', file: 'es.ts' },
-      { code: 'nl', name: 'Nederlands', file: 'nl.ts' },
+      { code: 'en', name: 'English' },
+      { code: 'zh', name: '中文' },
+      { code: 'es', name: 'Español' },
+      { code: 'nl', name: 'Nederlands' },
     ],
     detectBrowserLanguage: {
       useCookie: true,
       cookieKey: 'markdown-editor-locale',
       redirectOn: 'root',
     },
+    vueI18n: './i18n.config.ts',
   },
 })

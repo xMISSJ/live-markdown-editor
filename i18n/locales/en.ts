@@ -1,4 +1,4 @@
-export default defineI18nLocale(() => ({
+export default {
   ui: {
     appTitle: 'Live Markdown Editor',
     appSubtitle: 'Write markdown on the left, see the preview on the right.',
@@ -32,4 +32,4 @@ export default defineI18nLocale(() => ({
     advanced: { title: 'Advanced', description: 'Renderer-dependent features and useful extensions.' },
     'html-in-markdown': { title: 'HTML in Markdown', description: 'Raw HTML can be used for layouts/formatting when allowed.' },
   },
-}))
+}

@@ -1,4 +1,4 @@
-export default defineI18nLocale(() => ({
+export default {
   ui: {
     appTitle: '实时 Markdown 编辑器',
     appSubtitle: '左侧编写 Markdown，右侧实时预览。',
@@ -32,4 +32,4 @@ export default defineI18nLocale(() => ({
     advanced: { title: '进阶', description: '依赖渲染器支持的特性与扩展写法。' },
     'html-in-markdown': { title: 'Markdown 中的 HTML', description: '在允许时可使用原生 HTML 完成布局和格式。' },
   },
-}))
+}
