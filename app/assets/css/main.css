@@ -1,16 +1,53 @@
 @import "tailwindcss";
 
-:root {
-  --bg: #f3f0ea;
-  --panel: #fffdf8;
-  --panel-dark: #1c1b19;
-  --ink: #1c1b19;
-  --ink-muted: #6b6560;
-  --line: #ddd6cb;
-  --accent: #0f6e56;
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0d1117;
+  --panel: #161b22;
+  --panel-elevated: #1c2129;
+  --editor-bg: #0d1117;
+  --editor-field-bg: #21262d;
+  --preview-bg: #0d1117;
+  --ink: #e6edf3;
+  --ink-muted: #8b949e;
+  --line: #30363d;
+  --accent: #3fb950;
+  --code-bg: #21262d;
+  --pre-bg: #0d1117;
+  --header-bg: #161b22;
+  --caret: #3fb950;
+  --placeholder: #6e7681;
+  --badge-editor-bg: #21262d;
+  --badge-editor-ink: #c9d1d9;
+  --badge-preview-bg: color-mix(in srgb, var(--accent) 22%, transparent);
+  --badge-preview-ink: #56d364;
   --font-ui: "Segoe UI", "Helvetica Neue", sans-serif;
   --font-mono: "Cascadia Code", "Fira Code", "Consolas", monospace;
-  --font-prose: "Georgia", "Times New Roman", serif;
+  --font-prose: "Segoe UI", "Helvetica Neue", sans-serif;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+  --bg: #e8ecf3;
+  --panel: #ffffff;
+  --panel-elevated: #f7f8fb;
+  --editor-bg: #eef1f6;
+  --editor-field-bg: #f0f2f5;
+  --preview-bg: #ffffff;
+  --ink: #1a1f2c;
+  --ink-muted: #667085;
+  --line: #d0d7e4;
+  --accent: #0f7a52;
+  --code-bg: #e8edf5;
+  --pre-bg: #1a1f2c;
+  --header-bg: #ffffff;
+  --caret: #0f7a52;
+  --placeholder: #98a2b3;
+  --badge-editor-bg: #dde3ee;
+  --badge-editor-ink: #4b5568;
+  --badge-preview-bg: color-mix(in srgb, var(--accent) 16%, white);
+  --badge-preview-ink: #0b5c3d;
 }
 
 *,
@@ -30,6 +67,7 @@ body {
   font-family: var(--font-ui);
   color: var(--ink);
   background: var(--bg);
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .app-shell {
@@ -41,12 +79,19 @@ body {
 
 .app-header {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding: 0.9rem 1.25rem;
+  padding: 0.85rem 1.25rem;
   border-bottom: 1px solid var(--line);
-  background: color-mix(in srgb, var(--panel) 85%, white);
+  background: var(--header-bg);
+}
+
+.app-header-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
 }
 
 .app-header h1 {
@@ -60,6 +105,32 @@ body {
   margin: 0;
   color: var(--ink-muted);
   font-size: 0.9rem;
+}
+
+.theme-toggle {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: 0.45rem;
+  background: var(--panel-elevated);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 550;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.theme-toggle:hover {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 .editor-layout {
@@ -79,32 +150,58 @@ body {
 .pane-header {
   display: flex;
   align-items: center;
-  padding: 0.55rem 1rem;
+  gap: 0.65rem;
+  padding: 0.65rem 1rem;
   border-bottom: 1px solid var(--line);
-  background: color-mix(in srgb, var(--panel) 70%, var(--bg));
+  background: var(--panel-elevated);
 }
 
 .pane-header h2 {
   margin: 0;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.pane-meta {
+  margin-left: auto;
+  font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--ink-muted);
 }
 
+.pane-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.18rem 0.5rem;
+  border-radius: 0.3rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.pane-badge-editor {
+  background: var(--badge-editor-bg);
+  color: var(--badge-editor-ink);
+}
+
+.pane-badge-preview {
+  background: var(--badge-preview-bg);
+  color: var(--badge-preview-ink);
+}
+
 .editor-pane {
   border-right: 1px solid var(--line);
-  background: var(--panel-dark);
+  background: var(--editor-bg);
 }
 
 .editor-pane .pane-header {
-  background: color-mix(in srgb, var(--panel-dark) 92%, white);
-  border-bottom-color: #2e2c29;
-}
-
-.editor-pane .pane-header h2 {
-  color: #b7b1a8;
+  border-left: 3px solid var(--ink-muted);
 }
 
 .editor {
@@ -115,29 +212,63 @@ body {
   border: 0;
   outline: none;
   resize: none;
-  background: transparent;
-  color: #f4efe6;
+  background: var(--editor-field-bg);
+  color: var(--ink);
   font-family: var(--font-mono);
   font-size: 0.95rem;
   line-height: 1.65;
-  caret-color: #7dd3b5;
+  caret-color: var(--caret);
 }
 
 .editor::placeholder {
-  color: #7a746c;
+  color: var(--placeholder);
+}
+
+.editor-host {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--editor-field-bg);
+}
+
+.editor-host .cm-editor {
+  height: 100%;
+}
+
+.editor-host .cm-editor.cm-focused {
+  outline: none;
+}
+
+.editor-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-muted);
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
 }
 
 .preview-pane {
-  background: var(--panel);
+  background: var(--preview-bg);
+}
+
+.preview-pane .pane-header {
+  border-left: 3px solid var(--accent);
 }
 
 .preview {
   flex: 1;
   overflow: auto;
   padding: 1.5rem 1.75rem 2.5rem;
+  background: color-mix(in srgb, var(--preview-bg) 70%, black);
   font-family: var(--font-prose);
-  font-size: 1.05rem;
-  line-height: 1.7;
+  font-size: 1.08rem;
+  line-height: 1.75;
+  color: var(--ink);
+}
+
+[data-theme="light"] .preview {
+  background: #ffffff;
 }
 
 .prose :first-child {
@@ -181,15 +312,15 @@ body {
   font-size: 0.88em;
   padding: 0.12em 0.35em;
   border-radius: 0.3em;
-  background: #efe8dc;
+  background: var(--code-bg);
 }
 
 .prose pre {
   overflow: auto;
   padding: 0.9rem 1rem;
   border-radius: 0.5rem;
-  background: #1c1b19;
-  color: #f4efe6;
+  background: var(--pre-bg);
+  color: #e8eaef;
 }
 
 .prose pre code {
@@ -225,8 +356,7 @@ body {
 
 @media (max-width: 800px) {
   .app-header {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-wrap: wrap;
   }
 
   .editor-layout {
