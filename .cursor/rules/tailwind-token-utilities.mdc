@@ -1,0 +1,11 @@
+---
+description: Prefer Tailwind token utilities over arbitrary var() classes
+alwaysApply: true
+---
+
+# Tailwind Token Utility Preference
+
+- Prefer Tailwind token utilities like `border-line`, `text-ink`, `bg-header-bg`, `ring-accent` instead of arbitrary classes like `border-[var(--line)]`.
+- Use arbitrary value classes only when there is no matching token utility.
+- If a needed token utility does not exist, add a token mapping in `app/assets/css/main.css` under `@theme` (Tailwind v4) before using arbitrary syntax.
+- Keep component layout and visual styling in utility classes; keep `main.css` focused on theme variables, markdown-rendered content styles, and CodeMirror-specific selectors.

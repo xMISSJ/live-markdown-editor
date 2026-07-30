@@ -8,8 +8,16 @@ const emit = defineEmits<{
 }>()
 
 const { renderMarkdown } = useMarkdown()
+const { t } = useI18n()
 
 const activeSection = ref(markdownSections[0]?.id ?? '')
+
+function sectionText(sectionId: string) {
+  return {
+    title: t(`sections.${sectionId}.title`),
+    description: t(`sections.${sectionId}.description`),
+  }
+}
 
 function close() {
   open.value = false
@@ -39,72 +47,72 @@ onBeforeUnmount(() => {
   <Teleport to="body">
     <div
       v-if="open"
-      class="cheatsheet-backdrop"
+      class="fixed inset-0 z-40 bg-black/45"
       @click="close"
     />
     <aside
-      class="cheatsheet"
-      :class="{ 'cheatsheet-open': open }"
-      aria-label="Markdown cheat sheet"
+      class="fixed right-0 top-0 z-50 flex h-full w-full max-w-136 translate-x-full flex-col border-l border-line bg-header-bg text-ink transition-transform duration-200 pointer-events-none"
+      :class="{ 'translate-x-0 pointer-events-auto': open }"
+      :aria-label="t('ui.cheatTitle')"
       :aria-hidden="!open"
     >
-      <header class="cheatsheet-header">
+      <header class="flex items-start justify-between gap-4 border-b border-line px-[1.15rem] py-4">
         <div>
-          <h2>Markdown cheat sheet</h2>
-          <p>Comprehensive syntax reference. Insert any snippet into the editor.</p>
+          <h2 class="mb-1 text-[1.05rem] font-semibold">{{ t('ui.cheatTitle') }}</h2>
+          <p class="m-0 text-[0.88rem] leading-[1.45] text-ink-muted">{{ t('ui.cheatSubtitle') }}</p>
         </div>
-        <button type="button" class="theme-toggle" @click="close">
-          Close
+        <button type="button" class="inline-flex items-center rounded-md border border-line bg-panel-elevated px-3 py-1.5 text-[0.85rem] font-semibold text-ink transition-colors hover:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent" @click="close">
+          {{ t('ui.close') }}
         </button>
       </header>
 
-      <nav class="cheatsheet-toc" aria-label="Markdown sections">
+      <nav class="flex flex-wrap gap-1.5 border-b border-line bg-panel-elevated px-4 py-3" :aria-label="t('ui.markdownSectionsAria')">
         <button
           v-for="section in markdownSections"
           :key="section.id"
           type="button"
-          class="cheatsheet-toc-item"
-          :class="{ 'cheatsheet-toc-item-active': activeSection === section.id }"
+          class="cursor-pointer rounded-full border border-line bg-transparent px-[0.55rem] py-[0.28rem] text-[0.74rem] font-semibold tracking-[0.03em] text-ink-muted transition-colors hover:border-accent hover:text-ink"
+          :class="{ 'border-accent bg-accent/20 text-ink': activeSection === section.id }"
           @click="jumpToSection(section.id)"
         >
-          {{ section.title }}
+          {{ sectionText(section.id)?.title }}
         </button>
       </nav>
 
-      <div class="cheatsheet-list">
+      <div class="flex flex-1 flex-col gap-4 overflow-auto p-4">
         <section
           v-for="section in markdownSections"
           :id="`section-${section.id}`"
           :key="section.id"
-          class="cheatsheet-section"
+          class="flex scroll-mt-3 flex-col gap-2.5"
         >
-          <header class="cheatsheet-section-header">
-            <h3>{{ section.title }}</h3>
-            <p>{{ section.description }}</p>
+          <header>
+            <h3 class="m-0 text-[0.96rem] font-semibold">{{ sectionText(section.id)?.title }}</h3>
+            <p class="mt-1 text-[0.8rem] text-ink-muted">{{ sectionText(section.id)?.description }}</p>
           </header>
           <article
             v-for="example in section.examples"
             :key="example.id"
-            class="cheatsheet-card"
+            class="rounded-[0.55rem] border border-line bg-preview-surface p-3.5"
           >
-            <div class="cheatsheet-card-top">
+            <div class="mb-3 flex items-start justify-between gap-3">
               <div>
-                <h4>{{ example.title }}</h4>
-                <p>{{ example.description }}</p>
+                <h4 class="mb-1 text-[0.9rem] font-semibold">{{ example.title }}</h4>
+                <p class="m-0 text-[0.82rem] leading-[1.4] text-ink-muted">{{ example.description }}</p>
               </div>
               <button
                 type="button"
-                class="cheatsheet-insert"
+                class="shrink-0 rounded-md border border-line bg-panel-elevated px-2.5 py-1.5 text-[0.8rem] font-semibold text-ink transition-colors hover:border-accent"
                 @click="emit('insert', example.snippet)"
               >
-                Insert
+                {{ t('ui.insert') }}
               </button>
             </div>
 
-            <pre class="cheatsheet-source"><code>{{ example.snippet }}</code></pre>
+            <pre class="mb-3 overflow-auto whitespace-pre-wrap rounded-md border border-line bg-editor-field-bg px-3.5 py-3 text-[0.78rem] leading-[1.55] text-ink"><code>{{ example.snippet }}</code></pre>
 
             <div
-              class="cheatsheet-preview prose"
+              class="prose rounded-md border border-line bg-panel-elevated px-3.5 py-3 text-[0.92rem]"
               v-html="renderMarkdown(example.snippet)"
             />
           </article>

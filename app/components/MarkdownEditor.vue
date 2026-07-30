@@ -15,10 +15,12 @@ const emit = defineEmits<{
 }>()
 
 const { theme } = useTheme()
+const { t, locale } = useI18n()
 
 const host = ref<HTMLElement | null>(null)
 let view: EditorView | null = null
 const themeCompartment = new Compartment()
+const placeholderCompartment = new Compartment()
 
 const lightHighlight = HighlightStyle.define([
   { tag: tags.heading, color: '#0550ae', fontWeight: '700' },
@@ -134,14 +136,14 @@ function currentThemeMode(): 'dark' | 'light' {
   return theme.value
 }
 
-function createEditor(parent: HTMLElement) {
+function createEditor(parent: HTMLElement): EditorView {
   const updateListener = EditorView.updateListener.of((update) => {
     if (update.docChanged) {
       emit('update:modelValue', update.state.doc.toString())
     }
   })
 
-  view = new EditorView({
+  const editor = new EditorView({
     parent,
     state: EditorState.create({
       doc: props.modelValue,
@@ -152,7 +154,7 @@ function createEditor(parent: HTMLElement) {
         drawSelection(),
         history(),
         markdown(),
-        placeholder('Start writing markdown…'),
+        placeholderCompartment.of(placeholder(t('ui.startWriting'))),
         keymap.of([...defaultKeymap, ...historyKeymap, indentWithTab]),
         themeCompartment.of(themeExtensions(currentThemeMode())),
         updateListener,
@@ -160,6 +162,9 @@ function createEditor(parent: HTMLElement) {
       ],
     }),
   })
+
+  view = editor
+  return editor
 }
 
 watch(
@@ -185,6 +190,13 @@ watch(
   },
 )
 
+watch(locale, () => {
+  if (!view) return
+  view.dispatch({
+    effects: placeholderCompartment.reconfigure(placeholder(t('ui.startWriting'))),
+  })
+})
+
 watch(
   host,
   (el) => {
@@ -192,8 +204,8 @@ watch(
     // Recreate after HMR remounts so CodeMirror picks up the active theme
     view?.destroy()
     view = null
-    createEditor(el)
-    view?.dispatch({
+    const editor = createEditor(el)
+    editor.dispatch({
       effects: themeCompartment.reconfigure(themeExtensions(currentThemeMode())),
     })
   },
@@ -229,16 +241,24 @@ defineExpose({ insertSnippet })
 </script>
 
 <template>
-  <section class="pane editor-pane" aria-label="Markdown editor">
-    <header class="pane-header">
-      <span class="pane-badge pane-badge-editor">Write</span>
-      <h2>Markdown</h2>
-      <span class="pane-meta">source</span>
+  <section
+    class="flex min-h-0 min-w-0 flex-col border-r border-line bg-editor-bg max-[800px]:border-r-0 max-[800px]:border-b"
+    :aria-label="t('ui.markdownEditorAria')"
+  >
+    <header class="flex items-center gap-2.5 border-b border-line border-l-[3px] border-l-ink-muted bg-panel-elevated px-4 py-2.5">
+      <span class="inline-flex items-center rounded-[0.3rem] bg-badge-editor-bg px-2 py-[0.18rem] text-[0.7rem] font-bold uppercase tracking-[0.06em] text-badge-editor-ink">{{ t('ui.write') }}</span>
+      <h2 class="m-0 text-[0.8rem] font-semibold uppercase tracking-[0.04em] text-ink">{{ t('ui.markdown') }}</h2>
+      <span class="ml-auto text-[0.7rem] font-semibold uppercase tracking-[0.08em] text-ink-muted">{{ t('ui.source') }}</span>
     </header>
     <ClientOnly>
-      <div ref="host" class="editor-host" role="textbox" aria-label="Markdown input" />
+      <div
+        ref="host"
+        class="editor-host flex-1 overflow-hidden bg-editor-field-bg"
+        role="textbox"
+        :aria-label="t('ui.markdownInputAria')"
+      />
       <template #fallback>
-        <div class="editor-host editor-fallback">Loading editor…</div>
+        <div class="flex flex-1 items-center justify-center bg-editor-field-bg font-mono text-sm text-ink-muted">{{ t('ui.loadingEditor') }}</div>
       </template>
     </ClientOnly>
   </section>

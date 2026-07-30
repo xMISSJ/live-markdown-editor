@@ -1,5 +1,26 @@
 @import "tailwindcss";
 
+@theme {
+  --color-bg: var(--bg);
+  --color-panel: var(--panel);
+  --color-panel-elevated: var(--panel-elevated);
+  --color-editor-bg: var(--editor-bg);
+  --color-editor-field-bg: var(--editor-field-bg);
+  --color-preview-bg: var(--preview-bg);
+  --color-preview-surface: var(--preview-surface);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-code-bg: var(--code-bg);
+  --color-pre-bg: var(--pre-bg);
+  --color-header-bg: var(--header-bg);
+  --color-badge-editor-bg: var(--badge-editor-bg);
+  --color-badge-editor-ink: var(--badge-editor-ink);
+  --color-badge-preview-bg: var(--badge-preview-bg);
+  --color-badge-preview-ink: var(--badge-preview-ink);
+}
+
 :root,
 [data-theme="dark"] {
   color-scheme: dark;
@@ -72,167 +93,6 @@ body {
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-.app-shell {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  min-height: 100vh;
-}
-
-.app-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 0.85rem 1.25rem;
-  border-bottom: 1px solid var(--line);
-  background: var(--header-bg);
-}
-
-.app-header-copy {
-  display: flex;
-  flex-direction: column;
-  gap: 0.15rem;
-  min-width: 0;
-}
-
-.app-header h1 {
-  margin: 0;
-  font-size: 1.15rem;
-  font-weight: 650;
-  letter-spacing: -0.02em;
-}
-
-.app-header p {
-  margin: 0;
-  color: var(--ink-muted);
-  font-size: 0.9rem;
-}
-
-.app-header-actions {
-  display: flex;
-  flex-shrink: 0;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.theme-toggle {
-  flex-shrink: 0;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  padding: 0.45rem 0.8rem;
-  border: 1px solid var(--line);
-  border-radius: 0.45rem;
-  background: var(--panel-elevated);
-  color: var(--ink);
-  font: inherit;
-  font-size: 0.85rem;
-  font-weight: 550;
-  cursor: pointer;
-  transition: background-color 0.15s ease, border-color 0.15s ease;
-}
-
-.theme-toggle:hover {
-  border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
-}
-
-.theme-toggle:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-}
-
-.editor-layout {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  flex: 1;
-  min-height: 0;
-}
-
-.pane {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  min-height: 0;
-}
-
-.pane-header {
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
-  padding: 0.65rem 1rem;
-  border-bottom: 1px solid var(--line);
-  background: var(--panel-elevated);
-}
-
-.pane-header h2 {
-  margin: 0;
-  font-size: 0.8rem;
-  font-weight: 650;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--ink);
-}
-
-.pane-meta {
-  margin-left: auto;
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ink-muted);
-}
-
-.pane-badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.18rem 0.5rem;
-  border-radius: 0.3rem;
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.pane-badge-editor {
-  background: var(--badge-editor-bg);
-  color: var(--badge-editor-ink);
-}
-
-.pane-badge-preview {
-  background: var(--badge-preview-bg);
-  color: var(--badge-preview-ink);
-}
-
-.editor-pane {
-  border-right: 1px solid var(--line);
-  background: var(--editor-bg);
-}
-
-.editor-pane .pane-header {
-  border-left: 3px solid var(--ink-muted);
-}
-
-.editor {
-  flex: 1;
-  width: 100%;
-  min-height: 0;
-  padding: 1.25rem 1.35rem;
-  border: 0;
-  outline: none;
-  resize: none;
-  background: var(--editor-field-bg);
-  color: var(--ink);
-  font-family: var(--font-mono);
-  font-size: 0.95rem;
-  line-height: 1.65;
-  caret-color: var(--caret);
-}
-
-.editor::placeholder {
-  color: var(--placeholder);
-}
-
 .editor-host {
   flex: 1;
   min-height: 0;
@@ -246,34 +106,6 @@ body {
 
 .editor-host .cm-editor.cm-focused {
   outline: none;
-}
-
-.editor-fallback {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--ink-muted);
-  font-family: var(--font-mono);
-  font-size: 0.9rem;
-}
-
-.preview-pane {
-  background: var(--preview-bg);
-}
-
-.preview-pane .pane-header {
-  border-left: 3px solid var(--accent);
-}
-
-.preview {
-  flex: 1;
-  overflow: auto;
-  padding: 1.5rem 1.75rem 2.5rem;
-  background: var(--preview-surface);
-  font-family: var(--font-prose);
-  font-size: 1.08rem;
-  line-height: 1.75;
-  color: var(--ink);
 }
 
 .prose :first-child {
@@ -467,207 +299,10 @@ body {
   color: #cf222e;
 }
 
-.cheatsheet-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 40;
-  background: rgb(0 0 0 / 45%);
-}
-
-.cheatsheet {
-  position: fixed;
-  top: 0;
-  right: 0;
-  z-index: 50;
-  display: flex;
-  flex-direction: column;
-  width: min(34rem, 100vw);
-  height: 100%;
-  background: var(--header-bg);
-  border-left: 1px solid var(--line);
-  color: var(--ink);
-  transform: translateX(100%);
-  transition: transform 0.2s ease;
-  pointer-events: none;
-}
-
-.cheatsheet-open {
-  transform: translateX(0);
-  pointer-events: auto;
-}
-
-.cheatsheet-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 1rem 1.15rem;
-  border-bottom: 1px solid var(--line);
-}
-
-.cheatsheet-header h2 {
-  margin: 0 0 0.25rem;
-  font-size: 1.05rem;
-}
-
-.cheatsheet-header p {
-  margin: 0;
-  color: var(--ink-muted);
-  font-size: 0.88rem;
-  line-height: 1.45;
-}
-
-.cheatsheet-toc {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.45rem;
-  padding: 0.8rem 1rem;
-  border-bottom: 1px solid var(--line);
-  background: var(--panel-elevated);
-}
-
-.cheatsheet-toc-item {
-  padding: 0.28rem 0.55rem;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: transparent;
-  color: var(--ink-muted);
-  font: inherit;
-  font-size: 0.74rem;
-  font-weight: 650;
-  letter-spacing: 0.03em;
-  cursor: pointer;
-}
-
-.cheatsheet-toc-item:hover {
-  border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
-  color: var(--ink);
-}
-
-.cheatsheet-toc-item-active {
-  background: color-mix(in srgb, var(--accent) 18%, transparent);
-  border-color: color-mix(in srgb, var(--accent) 55%, var(--line));
-  color: var(--ink);
-}
-
-.cheatsheet-list {
-  flex: 1;
-  overflow: auto;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.9rem;
-}
-
-.cheatsheet-section {
-  display: flex;
-  flex-direction: column;
-  gap: 0.65rem;
-  scroll-margin-top: 0.75rem;
-}
-
-.cheatsheet-section-header h3 {
-  margin: 0;
-  font-size: 0.96rem;
-}
-
-.cheatsheet-section-header p {
-  margin: 0.2rem 0 0;
-  color: var(--ink-muted);
-  font-size: 0.8rem;
-}
-
-.cheatsheet-card {
-  padding: 0.9rem;
-  border: 1px solid var(--line);
-  border-radius: 0.55rem;
-  background: var(--preview-surface);
-}
-
-.cheatsheet-card-top {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 0.75rem;
-  margin-bottom: 0.75rem;
-}
-
-.cheatsheet-card h3 {
-  margin: 0 0 0.2rem;
-  font-size: 0.95rem;
-}
-
-.cheatsheet-card h4 {
-  margin: 0 0 0.2rem;
-  font-size: 0.9rem;
-}
-
-.cheatsheet-card-top p {
-  margin: 0;
-  color: var(--ink-muted);
-  font-size: 0.82rem;
-  line-height: 1.4;
-}
-
-.cheatsheet-insert {
-  flex-shrink: 0;
-  padding: 0.35rem 0.7rem;
-  border: 1px solid var(--line);
-  border-radius: 0.4rem;
-  background: var(--panel-elevated);
-  color: var(--ink);
-  font: inherit;
-  font-size: 0.8rem;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.cheatsheet-insert:hover {
-  border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
-}
-
-.cheatsheet-source {
-  margin: 0 0 0.75rem;
-  padding: 0.75rem 0.85rem;
-  overflow: auto;
-  border-radius: 0.4rem;
-  background: var(--editor-field-bg);
-  border: 1px solid var(--line);
-  color: var(--ink);
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  line-height: 1.55;
-  white-space: pre-wrap;
-}
-
-.cheatsheet-preview {
-  padding: 0.75rem 0.85rem;
-  border-radius: 0.4rem;
-  border: 1px solid var(--line);
-  background: var(--panel-elevated);
-  font-size: 0.92rem;
-}
-
 .cheatsheet-preview :first-child {
   margin-top: 0;
 }
 
 .cheatsheet-preview :last-child {
   margin-bottom: 0;
-}
-
-@media (max-width: 800px) {
-  .app-header {
-    flex-wrap: wrap;
-  }
-
-  .editor-layout {
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr;
-  }
-
-  .editor-pane {
-    border-right: 0;
-    border-bottom: 1px solid var(--line);
-  }
 }
